@@ -45,5 +45,5 @@ Kodukohvikute külastamine pakub suurepärase võimaluse leida unikaalseid maits
 
 ## Meeskond
 - Hannes Väster
-- ChatGPT
+- Eerik Poopuu
   
