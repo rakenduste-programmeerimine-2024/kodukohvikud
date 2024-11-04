@@ -47,4 +47,4 @@ Kodukohvikute külastamine pakub suurepärase võimaluse leida unikaalseid maits
 - Hannes Väster
 - Eerik Poopuu
 - Kaspar Merisalu
--Erik brück
+- Erik brück
