@@ -46,4 +46,4 @@ Kodukohvikute külastamine pakub suurepärase võimaluse leida unikaalseid maits
 ## Meeskond
 - Hannes Väster
 - Eerik Poopuu
-  
+- Kaspar Merisalu
