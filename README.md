@@ -85,5 +85,3 @@ https://www.figma.com/design/cIC2hktI7OXKrafbdhIkmx/Untitled?node-id=0-1&node-ty
 - Eerik Poopuu
 - Erik Brück
 - Kaspar Merisalu
-- Kaspar Merisalu
-- Erik brück
