@@ -16,7 +16,7 @@ import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import AppTheme from '../shared-theme/AppTheme';
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../mui material-ui v6.1.6 docs-data_material_getting-started_templates_sign-up/CustomIcons';
+
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -126,7 +126,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
       <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
       <SignUpContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">
-          <SitemarkIcon />
+          
           <Typography
             component="h1"
             variant="h4"
@@ -217,7 +217,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
               fullWidth
               variant="outlined"
               onClick={() => alert('Sign up with Google')}
-              startIcon={<GoogleIcon />}
+              
             >
               Sign up with Google
             </Button>
@@ -225,7 +225,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
               fullWidth
               variant="outlined"
               onClick={() => alert('Sign up with Facebook')}
-              startIcon={<FacebookIcon />}
+              
             >
               Sign up with Facebook
             </Button>
