@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import AppTheme from '../../../shared-theme/AppTheme';
 import ColorModeSelect from '../../../shared-theme/ColorModeSelect';
-import DateChooser from './dateChooser';
+
 
 const SignUpContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
