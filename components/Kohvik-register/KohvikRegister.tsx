@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 
 const KohvikRegister: React.FC = () => {
-  // State to track form fields
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -13,17 +12,14 @@ const KohvikRegister: React.FC = () => {
     phone: '',
   });
 
-  // State to track if the form is valid
   const [isValid, setIsValid] = useState(false);
 
-  // Handle form field changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => {
       const newData = { ...prev, [name]: value };
-      // Check if all fields are filled
       setIsValid(
-        Object.values(newData).every((val) => val.trim() !== '') // ensure no empty fields
+        Object.values(newData).every((val) => val.trim() !== '') 
       );
       return newData;
     });
@@ -60,7 +56,6 @@ const KohvikRegister: React.FC = () => {
             required
             sx={{
               borderRadius: 2,
-              borderColor: 'transparent',
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
                   borderColor: '#ccc',
@@ -69,7 +64,7 @@ const KohvikRegister: React.FC = () => {
                   borderColor: '#6e7e8d',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#4caf50', // Focus state color
+                  borderColor: '#4caf50',
                 },
               },
             }}
@@ -90,7 +85,6 @@ const KohvikRegister: React.FC = () => {
             required
             sx={{
               borderRadius: 2,
-              borderColor: 'transparent',
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
                   borderColor: '#ccc',
@@ -99,7 +93,7 @@ const KohvikRegister: React.FC = () => {
                   borderColor: '#6e7e8d',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#4caf50', // Focus state color
+                  borderColor: '#4caf50',
                 },
               },
             }}
@@ -120,7 +114,6 @@ const KohvikRegister: React.FC = () => {
             required
             sx={{
               borderRadius: 2,
-              borderColor: 'transparent',
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
                   borderColor: '#ccc',
@@ -129,7 +122,7 @@ const KohvikRegister: React.FC = () => {
                   borderColor: '#6e7e8d',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#4caf50', // Focus state color
+                  borderColor: '#4caf50',
                 },
               },
             }}
@@ -151,7 +144,6 @@ const KohvikRegister: React.FC = () => {
             required
             sx={{
               borderRadius: 2,
-              borderColor: 'transparent',
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
                   borderColor: '#ccc',
@@ -160,7 +152,7 @@ const KohvikRegister: React.FC = () => {
                   borderColor: '#6e7e8d',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#4caf50', // Focus state color
+                  borderColor: '#4caf50',
                 },
               },
             }}
@@ -176,7 +168,6 @@ const KohvikRegister: React.FC = () => {
             required
             sx={{
               borderRadius: 2,
-              borderColor: 'transparent',
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
                   borderColor: '#ccc',
@@ -185,7 +176,7 @@ const KohvikRegister: React.FC = () => {
                   borderColor: '#6e7e8d',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#4caf50', // Focus state color
+                  borderColor: '#4caf50',
                 },
               },
             }}
@@ -196,7 +187,7 @@ const KohvikRegister: React.FC = () => {
           <Typography variant="body1" fontWeight="bold" gutterBottom sx={{ color: '#555' }}>
             Lisa kohviku menüü
           </Typography>
-          <Button variant="outlined" component="label" sx={{ display: 'block', mt: 3.5}}>
+          <Button variant="outlined" component="label" sx={{ display: 'block', mb: 2, padding: '8px 16px' }}>
             Lae üles
             <input type="file" hidden />
           </Button>
@@ -208,17 +199,26 @@ const KohvikRegister: React.FC = () => {
               variant="contained"
               sx={{
                 minWidth: 200,
-                backgroundColor: isValid ? 'green !important' : 'primary.main', 
-                color: 'white !important',
+                backgroundColor: isValid ? 'green !important' : 'primary.main',
+                color: isValid ? 'white' : 'black',
+                padding: '10px 20px',
+                fontSize: '1.1rem',
+                fontWeight: 600,
+                borderRadius: 3,
+                boxShadow: isValid ? '0px 4px 10px rgba(0, 128, 0, 0.3)' : 'none',
                 '&:hover': {
-                  backgroundColor: isValid ? '#388e3c !important' : 'primary.dark !important',
+                  background: isValid
+                    ? 'linear-gradient(135deg, #388e3c, #66bb6a)'
+                    : '#d6d6d6',
                 },
                 '&.Mui-disabled': {
-                  backgroundColor: 'grey !important',
+                  background: '#e0e0e0 !important',
+                  color: '#9e9e9e !important',
                 },
+                transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
               }}
               size="large"
-              disabled={!isValid} 
+              disabled={!isValid}
             >
               SALVESTA
             </Button>
