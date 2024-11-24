@@ -4,10 +4,11 @@ import SignUpUserSteps from "@/components/tutorial/sign-up-user-steps";
 import { hasEnvVars } from "@/utils/supabase/check-env-vars";
 import Map from "@/components/map";
 
+
 export default async function Index() {
   return (
     <>
-      
+     
       <Map/>
     </>
   );
