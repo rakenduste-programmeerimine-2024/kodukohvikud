@@ -39,9 +39,11 @@ const MapContent = () => {
 };
 
 export default function Map() {
+  const key = JSON.stringify(center); // Key muutub, kui "center" muutub
   return (
     <MapContainer
-      center={center} 
+      key={key} 
+      center={center}
       zoom={7}
       style={{ width: "100%", height: "80vh" }}
     >
@@ -49,7 +51,8 @@ export default function Map() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
-      <MapContent /> {/* Renderdab kaardi sisu */}
+      <MapContent />
     </MapContainer>
   );
 }
+
