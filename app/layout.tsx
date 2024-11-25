@@ -34,14 +34,12 @@ export default function RootLayout({
           <div className="flex flex-col items-center min-h-screen bg-blue-100">
           <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16 bg-blue-100">
   <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
-    {/* Logo */}
     <div className="flex gap-5 items-center font-semibold">
       <Link href={"/"}>
         <img src="/logo.png" alt="Home" className="w-25 h-20" />
       </Link>
     </div>
 
-    {/* Nupud */}
     <div className="flex space-x-6 justify-center flex-1">
       <Link
         href="/kodukohvikud"
@@ -63,7 +61,6 @@ export default function RootLayout({
       </Link>
     </div>
 
-    {/* Sign-in / HeaderAuth */}
     {!hasEnvVars ? <EnvVarWarning /> : <HeaderAuth />}
   </div>
 </nav>
