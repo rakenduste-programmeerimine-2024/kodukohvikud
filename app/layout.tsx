@@ -44,19 +44,19 @@ export default function RootLayout({
     {/* Nupud */}
     <div className="flex space-x-6 justify-center flex-1">
       <Link
-        href="/"
+        href="/kodukohvikud"
         className="bg-white text-black hover:bg-red-400 hover:text-white py-2 px-4 rounded-md"
       >
         Kodukohvikud
       </Link>
       <Link
-        href="/about"
+        href="/Lisamine"
         className="bg-white text-black hover:bg-red-400 hover:text-white py-2 px-4 rounded-md"
       >
         Lisa oma kohvik
       </Link>
       <Link
-        href="/services"
+        href="/Kontakt"
         className="bg-white text-black hover:bg-red-400 hover:text-white py-2 px-4 rounded-md"
       >
         Kontakt
