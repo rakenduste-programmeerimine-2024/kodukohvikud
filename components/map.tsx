@@ -50,8 +50,9 @@ const Map = () => {
   return (
     <MapContainer
       center={center}
-      zoom={7}
-      style={{ width: "100%", height: "80vh" }}
+      zoom={8}
+      minZoom={7}
+      style={{ width: "100%", height: "76vh", borderRadius:"25px" }}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

@@ -73,7 +73,7 @@ const KohvikRegister: React.FC = () => {
 
         <Grid item xs={12} sm={6}>
           <Typography variant="body1" fontWeight="bold" gutterBottom sx={{ color: '#555' }}>
-            Kohviku väike kirjeldus
+            Lühike kirjeldus kohvikust
           </Typography>
           <TextField
             fullWidth
