@@ -85,10 +85,7 @@ export default function SignUp() {
       const birthday = data.get('birthday');
       const password = data.get('password');
 
-      if (typeof birthday === "string") {
-        
-        const [day, month, year] = birthday.split("/");
-        const formattedBirthday = `${year}-${month}-${day}`;}
+      
       const joinedDate = new Date().toISOString();
      
 
