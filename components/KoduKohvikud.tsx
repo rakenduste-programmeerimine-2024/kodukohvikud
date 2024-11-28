@@ -11,7 +11,7 @@ const Kodukohvikud = () => {
   const [cafes, setCafes] = useState<any[]>([]);
 
   useEffect(() => {
-    // Andmete laadimine Supabase-st
+    
     const fetchCafes = async () => {
       const { data, error } = await supabase
         .from('cafes')

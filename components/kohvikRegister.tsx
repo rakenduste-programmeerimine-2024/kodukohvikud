@@ -112,7 +112,7 @@ const KohvikRegister: React.FC = () => {
           )}
         </Grid>
 
-        {/* Email ja telefon */}
+        
         <Grid item xs={12} sm={6}>
           <Typography variant="body1" fontWeight="bold" gutterBottom sx={{ color: '#555' }}>
             Kohviku kontakt
@@ -138,7 +138,7 @@ const KohvikRegister: React.FC = () => {
           />
         </Grid>
 
-        {/* Menüü laadimine */}
+        
         <Grid item xs={12} sm={6}>
           <Typography variant="body1" fontWeight="bold" gutterBottom sx={{ color: '#555' }}>
             Lisa kohviku menüü
@@ -149,7 +149,7 @@ const KohvikRegister: React.FC = () => {
           </Button>
         </Grid>
 
-        {/* Salvesta nupp */}
+        
         <Grid item xs={12}>
           <Box display="flex" justifyContent="center" mt={2}>
             <Button
