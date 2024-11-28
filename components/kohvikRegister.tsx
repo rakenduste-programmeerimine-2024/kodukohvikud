@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import { Autocomplete, useJsApiLoader } from '@react-google-maps/api';
 
 const KohvikRegister: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,13 @@ const KohvikRegister: React.FC = () => {
   });
 
   const [isValid, setIsValid] = useState(false);
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+
+  // Google Maps API laadimine
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
+    libraries: ['places'],
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -23,6 +31,13 @@ const KohvikRegister: React.FC = () => {
       );
       return newData;
     });
+  };
+
+  const handlePlaceChanged = () => {
+    if (autocompleteRef.current) {
+      const place = autocompleteRef.current.getPlace();
+      setFormData((prev) => ({ ...prev, address: place.formatted_address || '' }));
+    }
   };
 
   return (
@@ -42,6 +57,7 @@ const KohvikRegister: React.FC = () => {
       </Typography>
 
       <Grid container spacing={3}>
+        {/* Kohviku nimi */}
         <Grid item xs={12} sm={6}>
           <Typography variant="body1" fontWeight="bold" gutterBottom sx={{ color: '#555' }}>
             Kohviku nimi
@@ -54,23 +70,10 @@ const KohvikRegister: React.FC = () => {
             value={formData.name}
             onChange={handleChange}
             required
-            sx={{
-              borderRadius: 2,
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#ccc',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#6e7e8d',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#4caf50',
-                },
-              },
-            }}
           />
         </Grid>
 
+        {/* Kohviku kirjeldus */}
         <Grid item xs={12} sm={6}>
           <Typography variant="body1" fontWeight="bold" gutterBottom sx={{ color: '#555' }}>
             Kohviku väike kirjeldus
@@ -83,57 +86,37 @@ const KohvikRegister: React.FC = () => {
             value={formData.description}
             onChange={handleChange}
             required
-            sx={{
-              borderRadius: 2,
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#ccc',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#6e7e8d',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#4caf50',
-                },
-              },
-            }}
           />
         </Grid>
 
+        {/* Aadressi auto-completion */}
         <Grid item xs={12}>
           <Typography variant="body1" fontWeight="bold" gutterBottom sx={{ color: '#555' }}>
             Kohviku aadress
           </Typography>
-          <TextField
-            fullWidth
-            variant="outlined"
-            size="small"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            required
-            sx={{
-              borderRadius: 2,
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#ccc',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#6e7e8d',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#4caf50',
-                },
-              },
-            }}
-          />
+          {isLoaded && (
+            <Autocomplete
+              onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
+              onPlaceChanged={handlePlaceChanged}
+            >
+              <TextField
+                fullWidth
+                variant="outlined"
+                size="small"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                required
+              />
+            </Autocomplete>
+          )}
         </Grid>
 
+        {/* Email ja telefon */}
         <Grid item xs={12} sm={6}>
           <Typography variant="body1" fontWeight="bold" gutterBottom sx={{ color: '#555' }}>
             Kohviku kontakt
           </Typography>
-          <Typography variant="body2" color="black">Email</Typography>
           <TextField
             fullWidth
             variant="outlined"
@@ -142,22 +125,7 @@ const KohvikRegister: React.FC = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            sx={{
-              borderRadius: 2,
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#ccc',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#6e7e8d',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#4caf50',
-                },
-              },
-            }}
           />
-          <Typography variant="body2" mt={2} color="black">Tel. nr</Typography>
           <TextField
             fullWidth
             variant="outlined"
@@ -166,23 +134,11 @@ const KohvikRegister: React.FC = () => {
             value={formData.phone}
             onChange={handleChange}
             required
-            sx={{
-              borderRadius: 2,
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#ccc',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#6e7e8d',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#4caf50',
-                },
-              },
-            }}
+            sx={{ mt: 2 }}
           />
         </Grid>
 
+        {/* Menüü laadimine */}
         <Grid item xs={12} sm={6}>
           <Typography variant="body1" fontWeight="bold" gutterBottom sx={{ color: '#555' }}>
             Lisa kohviku menüü
@@ -193,13 +149,14 @@ const KohvikRegister: React.FC = () => {
           </Button>
         </Grid>
 
+        {/* Salvesta nupp */}
         <Grid item xs={12}>
           <Box display="flex" justifyContent="center" mt={2}>
             <Button
               variant="contained"
               sx={{
                 minWidth: 200,
-                backgroundColor: isValid ? 'green !important' : 'primary.main',
+                backgroundColor: isValid ? 'green' : 'primary.main',
                 color: isValid ? 'white' : 'black',
                 padding: '10px 20px',
                 fontSize: '1.1rem',
