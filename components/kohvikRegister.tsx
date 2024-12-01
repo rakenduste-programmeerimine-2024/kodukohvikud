@@ -1,8 +1,15 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { Autocomplete, useJsApiLoader } from '@react-google-maps/api';
+import { createClient } from '@supabase/supabase-js';
+
+// Supabase klient
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 const KohvikRegister: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +20,7 @@ const KohvikRegister: React.FC = () => {
     phone: '',
   });
 
+  const [menuFile, setMenuFile] = useState<File | null>(null);
   const [isValid, setIsValid] = useState(false);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
@@ -26,9 +34,7 @@ const KohvikRegister: React.FC = () => {
     const { name, value } = e.target;
     setFormData((prev) => {
       const newData = { ...prev, [name]: value };
-      setIsValid(
-        Object.values(newData).every((val) => val.trim() !== '') 
-      );
+      setIsValid(Object.values(newData).every((val) => val.trim() !== ''));
       return newData;
     });
   };
@@ -37,6 +43,77 @@ const KohvikRegister: React.FC = () => {
     if (autocompleteRef.current) {
       const place = autocompleteRef.current.getPlace();
       setFormData((prev) => ({ ...prev, address: place.formatted_address || '' }));
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setMenuFile(e.target.files[0]);
+    }
+  };
+
+  const sanitizeFileName = (fileName: string): string => {
+    return fileName
+      .normalize("NFD") // Normaliseerib täpitähed (nt õ -> o)
+      .replace(/[\u0300-\u036f]/g, "") // Eemaldab diakriitikud (nt õ -> o)
+      .replace(/[^a-zA-Z0-9._-]/g, "_"); // Asendab kõik keelatud sümbolid alakriipsuga
+  };
+  
+
+  const uploadMenuFile = async (file: File): Promise<string | null> => {
+    const sanitizedFileName = sanitizeFileName(file.name); // Puhastab failinime
+  
+    const { data, error } = await supabase.storage
+      .from('kohvikud_menyy') // Veendu, et bucket nimi on õige
+      .upload(`menus/${sanitizedFileName}`, file);
+  
+    if (error) {
+      console.error('Menüü üleslaadimise viga:', error.message);
+      return null;
+    }
+  
+    return data?.path
+      ? `${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL}/kohvikud_menyy/${data.path}`
+      : null;
+  };
+  
+
+  const handleSubmit = async () => {
+    let menuFileUrl = null;
+
+    if (menuFile) {
+      menuFileUrl = await uploadMenuFile(menuFile);
+      if (!menuFileUrl) {
+        alert('Menüü üleslaadimine ebaõnnestus');
+        return;
+      }
+    }
+
+    const { data, error } = await supabase.from('Kohvikud').insert([
+      {
+        nimi: formData.name,
+        kirjeldus: formData.description,
+        aadress: formData.address,
+        email: formData.email,
+        telefon: formData.phone,
+        menu_fail: menuFileUrl,
+      },
+    ]);
+
+    if (error) {
+      console.error('Andmete salvestamine ebaõnnestus:', error.message);
+      alert('Salvestamine ebaõnnestus');
+    } else {
+      alert('Kohvik edukalt salvestatud!');
+      setFormData({
+        name: '',
+        description: '',
+        address: '',
+        email: '',
+        phone: '',
+      });
+      setMenuFile(null);
+      setIsValid(false);
     }
   };
 
@@ -145,7 +222,7 @@ const KohvikRegister: React.FC = () => {
           </Typography>
           <Button variant="outlined" component="label" sx={{ display: 'block', mb: 2, padding: '8px 16px' }}>
             Lae üles
-            <input type="file" hidden />
+            <input type="file" hidden onChange={handleFileChange} />
           </Button>
         </Grid>
 
@@ -154,6 +231,7 @@ const KohvikRegister: React.FC = () => {
           <Box display="flex" justifyContent="center" mt={2}>
             <Button
               variant="contained"
+              onClick={handleSubmit}
               sx={{
                 minWidth: 200,
                 backgroundColor: isValid ? 'green' : 'primary.main',
