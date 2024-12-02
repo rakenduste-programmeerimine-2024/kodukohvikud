@@ -15,7 +15,7 @@ const Kodukohvikud = () => {
     const fetchCafes = async () => {
       const { data, error } = await supabase
         .from('cafes')
-        .select('id, nimi, aadress, kirjeldus, avamis_kuupäev, sulgemis_kuupäev, lahtiolekuaeg');
+        .select('id, nimi, aadress, avamis_kuupäev, sulgemis_kuupäev, lahtiolekuaeg');
 
       if (error) {
         console.error('Error fetching cafes:', error);
@@ -34,7 +34,6 @@ const Kodukohvikud = () => {
         <div className="grid grid-cols-5 gap-4 text-center text-black border-b-2 border-black mb-4">
           <div className="font-semibold">Nimi</div>
           <div className="font-semibold">Aadress</div>
-          <div className="font-semibold">Kirjeldus</div>
           <div className="font-semibold">Avamine</div>
           <div className="font-semibold">Sulgemine</div>
           <div className="font-semibold">Avatud</div>
@@ -45,7 +44,6 @@ const Kodukohvikud = () => {
             <div key={cafe.id} className="grid grid-cols-5 gap-4 text-center text-black border-b border-black py-2">
               <div>{cafe.nimi}</div>
               <div>{cafe.aadress}</div>
-              <div>{cafe.kirjeldus}</div>
               <div>{new Date(cafe.avamis_kuupäev).toLocaleDateString()}</div>
               <div>{new Date(cafe.sulgemis_kuupäev).toLocaleDateString()}</div>
               <div>{cafe.lahtiolekuaeg}</div>

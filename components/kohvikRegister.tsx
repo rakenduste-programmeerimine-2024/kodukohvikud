@@ -187,7 +187,7 @@ const KohvikRegister: React.FC = () => {
 
         <Grid item xs={12} sm={6}>
           <Typography variant="body1" fontWeight="bold" gutterBottom>
-            Alguskuupäev
+            Avamiskuupäev
           </Typography>
           <TextField
             fullWidth
@@ -202,7 +202,7 @@ const KohvikRegister: React.FC = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Typography variant="body1" fontWeight="bold" gutterBottom>
-            Lõppkuupäev
+            Sulgemiskuupäev
           </Typography>
           <TextField
             fullWidth
