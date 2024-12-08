@@ -15,7 +15,7 @@ const center: LatLngLiteral = { lat: 58.5953, lng: 25.0136 };
 const MapContent = () => {
   const map = useMap();
   const customIcon = new L.Icon({
-    iconUrl: "/icons/marker.png",
+    iconUrl: "icons/marker.png",
     iconSize: [32, 32],
     iconAnchor: [16, 32],
     popupAnchor: [0, -32],
