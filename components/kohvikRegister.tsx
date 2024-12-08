@@ -19,7 +19,7 @@ const KohvikRegister: React.FC = () => {
   // Google Maps API laadimine
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
-    libraries: ['places'],
+    libraries: ['places'],  // Veendu, et places on lisatud
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
