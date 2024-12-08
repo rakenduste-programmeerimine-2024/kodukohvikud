@@ -1,9 +1,9 @@
-import Map from "@/components/map";
+import GoogleMapComponent from "@/components/map";
 export default async function Index() {
   return (
     <>
      
-      <Map/>
+     <GoogleMapComponent />
     </>
   );
 }
