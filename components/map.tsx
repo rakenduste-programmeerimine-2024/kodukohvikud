@@ -30,7 +30,7 @@ const GoogleMapComponent = () => {
     const fetchCafes = async () => {
       const { data, error } = await supabase
         .from('cafes')
-        .select('id, nimi, aadress, avamis_kuupäev, sulgemis_kuupäev, latitude, longitude');
+        .select('id, nimi, aadress, avamis_kuupäev, sulgemis_kuupäev, latitude, longitude,kirjeldus');
     
       if (error) {
         console.error('Error fetching cafes:', error);
@@ -86,6 +86,7 @@ const GoogleMapComponent = () => {
             <p>{selectedCafe.aadress}</p>
             <p><strong>Avamis kuupäev:</strong> {selectedCafe.avamis_kuupäev}</p>
             <p><strong>Sulgemis kuupäev:</strong> {selectedCafe.sulgemis_kuupäev}</p>
+            <p><strong>kirjeldus:</strong>{selectedCafe.kirjeldus}</p>
           </div>
         </InfoWindow>
       )}
