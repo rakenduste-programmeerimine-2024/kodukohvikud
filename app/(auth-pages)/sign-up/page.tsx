@@ -11,7 +11,13 @@ import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import AppTheme from '../../../shared-theme/AppTheme';
 import ColorModeSelect from '../../../shared-theme/ColorModeSelect';
-import { supabase } from '../../../supabase/supabaseClient.js'; 
+import { createClient } from '@supabase/supabase-js';
+
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 const SignUpContainer = styled(Box)(({ theme }) => ({
   display: 'flex',

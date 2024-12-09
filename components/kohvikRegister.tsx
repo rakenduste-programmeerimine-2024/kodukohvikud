@@ -5,13 +5,13 @@ import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { Autocomplete, LoadScript,useJsApiLoader } from '@react-google-maps/api';
 import { createClient } from '@supabase/supabase-js';
 
-// Supabase klient
+
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-const libraries = ['places'];
+
 
 const KohvikRegister: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -33,6 +33,7 @@ const KohvikRegister: React.FC = () => {
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
+    libraries: ['places'],
    
   });
 
@@ -131,7 +132,7 @@ const KohvikRegister: React.FC = () => {
   };
 
   return (
-    <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string} libraries={['places']}>
+   
     <Box
       sx={{
         backgroundColor: 'white',
@@ -302,7 +303,7 @@ const KohvikRegister: React.FC = () => {
         </Grid>
       </Grid>
     </Box>
-    </LoadScript>
+    
   );
 };
 
