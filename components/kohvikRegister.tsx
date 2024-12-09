@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
-import { Autocomplete, useJsApiLoader } from '@react-google-maps/api';
+import { Autocomplete, LoadScript,useJsApiLoader } from '@react-google-maps/api';
 import { createClient } from '@supabase/supabase-js';
 
 // Supabase klient
@@ -52,8 +52,8 @@ const KohvikRegister: React.FC = () => {
         setFormData((prev) => ({
           ...prev,
           address: place.formatted_address || '',
-          latitude: lat || 0,  // Salvesta lat
-          longitude: lng || 0, // Salvesta lng
+          latitude: lat || 0,  
+          longitude: lng || 0, 
         }));
       }
     }
@@ -102,8 +102,8 @@ const KohvikRegister: React.FC = () => {
       avamis_kuupäev: formData.startDate,
       sulgemis_kuupäev: formData.endDate,
       lahtiolekuaeg: formData.openingHours,
-      latitude: formData.latitude,  // Lisa lat
-      longitude: formData.longitude, // Lisa lng
+      latitude: formData.latitude,  
+      longitude: formData.longitude, 
     }]);
 
     if (error) {
@@ -129,6 +129,7 @@ const KohvikRegister: React.FC = () => {
   };
 
   return (
+    <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string} libraries={['places']}>
     <Box
       sx={{
         backgroundColor: 'white',
@@ -299,6 +300,7 @@ const KohvikRegister: React.FC = () => {
         </Grid>
       </Grid>
     </Box>
+    </LoadScript>
   );
 };
 
