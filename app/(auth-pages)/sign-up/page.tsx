@@ -102,8 +102,8 @@ export default function SignUp() {
 
   return (
     <AppTheme>
-      <CssBaseline enableColorScheme />
-      <ColorModeSelect sx={{ position: 'absolute', top: '10px', right: '10px' }} />
+      
+      
       <SignUpContainer>
         <Typography component="h1" variant="h4" gutterBottom sx={{ color: '#0A0B56' }}>
           Sign up
