@@ -82,7 +82,7 @@ export default function SignUp() {
 
   return (
     <AppTheme>
-      <BrownBox>
+      
         <SignUpContainer>
           <Typography component="h1" variant="h4" gutterBottom>
             Sign up
@@ -179,12 +179,24 @@ export default function SignUp() {
                 helperText={passwordError ? 'Password must be at least 6 characters' : ''}
               />
             </FormControl>
-            <Button type="submit" variant="contained" fullWidth>
-              Sign up
-            </Button>
+            <Button
+  type="submit"
+  variant="contained"
+  fullWidth
+  sx={{
+    backgroundColor: 'black !important', 
+    color: 'white',              
+    '&:hover': {
+      backgroundColor: '#8E3B2E',
+    },
+    padding: '10px',             
+  }}
+>
+  Sign up
+</Button>
           </Box>
         </SignUpContainer>
-      </BrownBox>
+      
     </AppTheme>
   );
 }
