@@ -11,6 +11,8 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
+const libraries = ['places'];
+
 const KohvikRegister: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -31,7 +33,7 @@ const KohvikRegister: React.FC = () => {
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
-    libraries: ['places'],
+   
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
