@@ -83,8 +83,8 @@ const GoogleMapComponent = () => {
           onCloseClick={() => setSelectedCafe(null)} 
         >
           <div>
-            <h3>{selectedCafe.nimi}</h3>
-            <p>{selectedCafe.aadress}</p>
+            <h3><strong>Nimi:</strong>{selectedCafe.nimi}</h3>
+            <p><strong>Aadress:</strong>{selectedCafe.aadress}</p>
             <p><strong>Avamis kuupäev:</strong> {selectedCafe.avamis_kuupäev}</p>
             <p><strong>Sulgemis kuupäev:</strong> {selectedCafe.sulgemis_kuupäev}</p>
             <p><strong>kirjeldus:</strong>{selectedCafe.kirjeldus}</p>
