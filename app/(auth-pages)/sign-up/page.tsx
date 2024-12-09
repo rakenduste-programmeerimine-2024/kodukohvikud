@@ -184,7 +184,7 @@ export default function SignUp() {
   variant="contained"
   fullWidth
   sx={{
-    backgroundColor: 'black !important', 
+    backgroundColor: 'white !important', 
     color: 'white',              
     '&:hover': {
       backgroundColor: '#8E3B2E',
