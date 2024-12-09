@@ -41,7 +41,7 @@ export default function RootLayout({
 
                 <div className="flex space-x-6 justify-center flex-1">
                   <Link
-                    href="/kodukohvikud"
+                    href="/KoduKohvikud"
                     className="bg-brown-500 text-white hover:bg-brown-100 hover:text-white py-2 px-4 rounded-md shadow-md"
                   >
                     Kodukohvikud
@@ -72,7 +72,7 @@ export default function RootLayout({
               <div className="text-sm text-white">
                 <h3 className="font-bold">Kontakt</h3>
                 <p>Email: info@kodukohvikud.com</p>
-                <p>Phone: +372 420 6969</p>
+                <p>Phone: +372 888 888 888</p>
                 <p>Aadress: Top floor, Penthouse </p>
               </div>
             </footer>
