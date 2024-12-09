@@ -21,6 +21,8 @@ const KohvikRegister: React.FC = () => {
     startDate: '',
     endDate: '',
     openingHours: '',
+    latitude: 0,
+    longitude: 0,
   });
 
   const [menuFile, setMenuFile] = useState<File | null>(null);
@@ -36,7 +38,7 @@ const KohvikRegister: React.FC = () => {
     const { name, value } = e.target;
     setFormData((prev) => {
       const newData = { ...prev, [name]: value };
-      setIsValid(Object.values(newData).every((val) => val.trim() !== ''));
+      setIsValid(Object.values(newData).every((val) => val !== ''));
       return newData;
     });
   };
@@ -44,7 +46,16 @@ const KohvikRegister: React.FC = () => {
   const handlePlaceChanged = () => {
     if (autocompleteRef.current) {
       const place = autocompleteRef.current.getPlace();
-      setFormData((prev) => ({ ...prev, address: place.formatted_address || '' }));
+      if (place.geometry && place.geometry.location) {
+        const lat = place.geometry.location.lat();  
+        const lng = place.geometry.location.lng();
+        setFormData((prev) => ({
+          ...prev,
+          address: place.formatted_address || '',
+          latitude: lat || 0,  // Salvesta lat
+          longitude: lng || 0, // Salvesta lng
+        }));
+      }
     }
   };
 
@@ -81,22 +92,22 @@ const KohvikRegister: React.FC = () => {
       }
     }
 
-    const { data, error } = await supabase.from('cafes').insert([
-      {
-        nimi: formData.name,
-        kirjeldus: formData.description,
-        aadress: formData.address,
-        email: formData.email,
-        telefon: formData.phone,
-        menu_fail: menuFileUrl,
-        avamis_kuupäev: formData.startDate,
-        sulgemis_kuupäev: formData.endDate,
-        lahtiolekuaeg: formData.openingHours,
-      },
-    ]);
+    const { data, error } = await supabase.from('cafes').insert([{
+      nimi: formData.name,
+      kirjeldus: formData.description,
+      aadress: formData.address,
+      email: formData.email,
+      telefon: formData.phone,
+      menu_fail: menuFileUrl,
+      avamis_kuupäev: formData.startDate,
+      sulgemis_kuupäev: formData.endDate,
+      lahtiolekuaeg: formData.openingHours,
+      latitude: formData.latitude,  // Lisa lat
+      longitude: formData.longitude, // Lisa lng
+    }]);
 
     if (error) {
-      console.error('Andmete salvestamine ebaõnnestus:', error); // Täpsustame vea logimist
+      console.error('Andmete salvestamine ebaõnnestus:', error);
       alert(`Salvestamine ebaõnnestus: ${error.message || 'Tundmatu viga'}`);
     } else {
       alert('Kohvik edukalt salvestatud!');
@@ -109,6 +120,8 @@ const KohvikRegister: React.FC = () => {
         startDate: '',
         endDate: '',
         openingHours: '',
+        latitude: 0,
+        longitude: 0,
       });
       setMenuFile(null);
       setIsValid(false);
