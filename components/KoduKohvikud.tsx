@@ -15,8 +15,8 @@ const Kodukohvikud = () => {
     const fetchCafes = async () => {
       const { data, error } = await supabase
         .from('cafes')
-        .select('id, name, aadress, description, opening_date, closing_date');
-
+        .select('id, nimi, aadress, avamis_kuupäev, sulgemis_kuupäev');
+    
       if (error) {
         console.error('Error fetching cafes:', error);
       } else {
@@ -28,24 +28,22 @@ const Kodukohvikud = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex  justify-center bg-white rounded-lg p-4">
+    <div className="min-h-screen flex justify-center  bg-white p-6">
       <div className="w-full max-w-5xl">
-        <div className="grid grid-cols-5 gap-4 text-center border-b-2 border-black mb-4">
+        <div className="grid grid-cols-4 gap-6 text-center border-b-2 border-black mb-6">
           <div className="font-semibold">Nimi</div>
           <div className="font-semibold">Aadress</div>
-          <div className="font-semibold">Kirjeldus</div>
           <div className="font-semibold">Avamine</div>
           <div className="font-semibold">Sulgemine</div>
         </div>
 
         {cafes.length > 0 ? (
           cafes.map((cafe) => (
-            <div key={cafe.id} className="grid grid-cols-5 gap-4 text-center border-b border-black py-2">
-              <div>{cafe.name}</div>
+            <div key={cafe.id} className="grid grid-cols-4 gap-4 text-center border-b border-black py-3">
+              <div>{cafe.nimi}</div>
               <div>{cafe.aadress}</div>
-              <div>{cafe.description}</div>
-              <div>{new Date(cafe.opening_date).toLocaleDateString()}</div>
-              <div>{new Date(cafe.closing_date).toLocaleDateString()}</div>
+              <div>{new Date(cafe.avamis_kuupäev).toLocaleDateString()}</div>
+              <div>{new Date(cafe.sulgemis_kuupäev).toLocaleDateString()}</div>
             </div>
           ))
         ) : (
