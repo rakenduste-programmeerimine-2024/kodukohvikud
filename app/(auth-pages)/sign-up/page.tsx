@@ -13,7 +13,6 @@ import AppTheme from '../../../shared-theme/AppTheme';
 import ColorModeSelect from '../../../shared-theme/ColorModeSelect';
 import { createClient } from '@supabase/supabase-js';
 
-
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -32,15 +31,20 @@ export default function SignUp() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [name, setName] = React.useState('');
+  const [phone, setPhone] = React.useState('');
+  const [birthDate, setBirthDate] = React.useState('');
   const [emailError, setEmailError] = React.useState(false);
   const [passwordError, setPasswordError] = React.useState(false);
   const [nameError, setNameError] = React.useState(false);
+  const [phoneError, setPhoneError] = React.useState(false);
+  const [birthDateError, setBirthDateError] = React.useState(false);
 
   const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     // Basic form validation
     let valid = true;
+
     if (!name) {
       setNameError(true);
       valid = false;
@@ -62,6 +66,20 @@ export default function SignUp() {
       setPasswordError(false);
     }
 
+    if (!phone || !/^\+?[1-9]\d{1,14}$/.test(phone)) {
+      setPhoneError(true);
+      valid = false;
+    } else {
+      setPhoneError(false);
+    }
+
+    if (!birthDate || !/^\d{4}-\d{2}-\d{2}$/.test(birthDate)) {
+      setBirthDateError(true);
+      valid = false;
+    } else {
+      setBirthDateError(false);
+    }
+
     if (!valid) return;
 
     // Supabase sign-up logic
@@ -69,7 +87,7 @@ export default function SignUp() {
       email,
       password,
       options: {
-        data: { name }, // Save user's name in the profile metadata
+        data: { name, phone, birthDate }, // Save user's metadata including birth date
       },
     });
 
@@ -119,6 +137,37 @@ export default function SignUp() {
               placeholder="johndoe@example.com"
               error={emailError}
               helperText={emailError ? 'Please enter a valid email address' : ''}
+            />
+          </FormControl>
+
+          <FormControl fullWidth margin="normal">
+            <FormLabel htmlFor="phone">Phone Number</FormLabel>
+            <TextField
+              id="phone"
+              name="phone"
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+              variant="outlined"
+              placeholder="+1234567890"
+              error={phoneError}
+              helperText={phoneError ? 'Please enter a valid phone number' : ''}
+            />
+          </FormControl>
+
+          <FormControl fullWidth margin="normal">
+            <FormLabel htmlFor="birthDate">Birth Date</FormLabel>
+            <TextField
+              id="birthDate"
+              name="birthDate"
+              type="date"
+              value={birthDate}
+              onChange={(e) => setBirthDate(e.target.value)}
+              required
+              variant="outlined"
+              error={birthDateError}
+              helperText={birthDateError ? 'Please enter a valid date (YYYY-MM-DD)' : ''}
             />
           </FormControl>
 

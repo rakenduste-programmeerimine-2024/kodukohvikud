@@ -43,9 +43,15 @@ const GoogleMapComponent = () => {
     fetchCafes();
 
    
-   
+    if (window.google && window.google.maps) {
+      setIsScriptLoaded(true);  
+    } else {
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY2}`;
+      script.onload = () => setIsScriptLoaded(true); 
+      document.head.appendChild(script);
+    }
   }, []);
-
 
   if (!isScriptLoaded) {
     return <div>Kaart laaditakse...</div>;
@@ -55,7 +61,7 @@ const GoogleMapComponent = () => {
     setSelectedCafe(cafe); 
   };
   return (
-   
+    
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center}
@@ -86,7 +92,6 @@ const GoogleMapComponent = () => {
         </InfoWindow>
       )}
     </GoogleMap>
-    
   );
 };
 
