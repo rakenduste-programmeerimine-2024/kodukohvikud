@@ -41,7 +41,7 @@ export default function RootLayout({
 
                 <div className="flex space-x-6 justify-center flex-1">
                   <Link
-                    href="/kodukohvikud"
+                    href="/KoduKohvikud"
                     className="bg-brown-500 text-white hover:bg-brown-100 hover:text-white py-2 px-4 rounded-md shadow-md"
                   >
                     Kodukohvikud
