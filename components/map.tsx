@@ -43,15 +43,15 @@ const GoogleMapComponent = () => {
     fetchCafes();
 
    
-    if (window.google && window.google.maps) {
-      setIsScriptLoaded(true);  
-    } else {
+    if (!window.google || !window.google.maps) {
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`;
-      script.onload = () => setIsScriptLoaded(true); 
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`;
+      script.async = true;
+      script.onload = () => console.log("Google Maps API loaded successfully!");
       document.head.appendChild(script);
     }
   }, []);
+
 
   if (!isScriptLoaded) {
     return <div>Kaart laaditakse...</div>;
