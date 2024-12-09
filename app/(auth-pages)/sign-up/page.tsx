@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import AppTheme from '../../../shared-theme/AppTheme';
 import ColorModeSelect from '../../../shared-theme/ColorModeSelect';
-
+import { supabase } from '../../../supabase/supabaseClient'; // Import Supabase client
 
 const SignUpContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -23,50 +23,75 @@ const SignUpContainer = styled(Box)(({ theme }) => ({
 }));
 
 export default function SignUp() {
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [name, setName] = React.useState('');
+  const [phone, setPhone] = React.useState('');
+  const [birthDate, setBirthDate] = React.useState('');
   const [emailError, setEmailError] = React.useState(false);
   const [passwordError, setPasswordError] = React.useState(false);
   const [nameError, setNameError] = React.useState(false);
+  const [phoneError, setPhoneError] = React.useState(false);
+  const [birthDateError, setBirthDateError] = React.useState(false);
 
-  const validateInputs = () => {
-    const email = document.getElementById('email') as HTMLInputElement;
-    const password = document.getElementById('password') as HTMLInputElement;
-    const name = document.getElementById('name') as HTMLInputElement;
+  const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-    let isValid = true;
+    // Basic form validation
+    let valid = true;
 
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      isValid = false;
-    } else {
-      setEmailError(false);
-    }
-
-    if (!password.value || password.value.length < 6) {
-      setPasswordError(true);
-      isValid = false;
-    } else {
-      setPasswordError(false);
-    }
-
-    if (!name.value || name.value.length < 1) {
+    if (!name) {
       setNameError(true);
-      isValid = false;
+      valid = false;
     } else {
       setNameError(false);
     }
 
-    return isValid;
-  };
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      setEmailError(true);
+      valid = false;
+    } else {
+      setEmailError(false);
+    }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (validateInputs()) {
-      const data = new FormData(event.currentTarget);
-      console.log({
-        name: data.get('name'),
-        email: data.get('email'),
-        password: data.get('password'),
-      });
+    if (!password || password.length < 6) {
+      setPasswordError(true);
+      valid = false;
+    } else {
+      setPasswordError(false);
+    }
+
+    if (!phone || !/^\+?[1-9]\d{1,14}$/.test(phone)) {
+      setPhoneError(true);
+      valid = false;
+    } else {
+      setPhoneError(false);
+    }
+
+    if (!birthDate || !/^\d{4}-\d{2}-\d{2}$/.test(birthDate)) {
+      setBirthDateError(true);
+      valid = false;
+    } else {
+      setBirthDateError(false);
+    }
+
+    if (!valid) return;
+
+    // Supabase sign-up logic
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { name, phone, birthDate }, // Save user's metadata including birth date
+      },
+    });
+
+    if (error) {
+      console.error('Error signing up:', error.message);
+      alert('Sign-up failed: ' + error.message);
+    } else {
+      console.log('Sign-up successful:', data);
+      alert('Sign-up successful! Please check your email for a confirmation link.');
     }
   };
 
@@ -75,32 +100,20 @@ export default function SignUp() {
       <CssBaseline enableColorScheme />
       <ColorModeSelect sx={{ position: 'absolute', top: '10px', right: '10px' }} />
       <SignUpContainer>
-        <Typography component="h1" variant="h4" gutterBottom>
+        <Typography component="h1" variant="h4" gutterBottom sx={{ color: '#0A0B56' }}>
           Sign up
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%', maxWidth: '400px' }}>
-          
+        <Box component="form" onSubmit={handleSignUp} sx={{ width: '100%', maxWidth: '400px' }}>
           <FormControl fullWidth margin="normal">
-            <FormLabel htmlFor="name">First Name</FormLabel>
+            <FormLabel htmlFor="name">Full Name</FormLabel>
             <TextField
               id="name"
               name="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
               variant="outlined"
-              placeholder="Margus"
-              error={nameError}
-              helperText={nameError ? 'Name is required' : ''}
-            />
-          </FormControl>
-
-          <FormControl fullWidth margin="normal">
-            <FormLabel htmlFor="name">Last Name</FormLabel>
-            <TextField
-              id="last name"
-              name="last name"
-              required
-              variant="outlined"
-              placeholder="Murakas"
+              placeholder="John Doe"
               error={nameError}
               helperText={nameError ? 'Name is required' : ''}
             />
@@ -111,63 +124,56 @@ export default function SignUp() {
             <TextField
               id="email"
               name="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
               variant="outlined"
-              placeholder="MargusMurakas@example.com"
+              placeholder="johndoe@example.com"
               error={emailError}
               helperText={emailError ? 'Please enter a valid email address' : ''}
             />
           </FormControl>
 
-          
           <FormControl fullWidth margin="normal">
-          <FormLabel htmlFor="phone">Phone</FormLabel>
-          <TextField
-                id="phone"
-                name="phone"
-                required
-                variant="outlined"
-                placeholder="900-2002"
-                type="tel"
-                error={nameError}
-                helperText={nameError ? 'Phone number is required' : ''}
-                inputProps={{
-                  pattern: '[0-9]*', 
-                  
-                  inputMode: 'numeric',
-                }}
-                onInput={(e) => {
-                  
-                  const input = e.target as HTMLInputElement;
-                  
-                  input.value = input.value.replace(/\D/g, '');
-                }}
-              />
-            </FormControl>
-
-
-          <FormControl fullWidth margin="normal">
-            <FormLabel htmlFor="birthday">Birthday</FormLabel>
+            <FormLabel htmlFor="phone">Phone Number</FormLabel>
             <TextField
-              id="birthday"
-              name="birthday"
+              id="phone"
+              name="phone"
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               required
               variant="outlined"
-              type='date'
-              InputLabelProps={{
-                shrink: true, 
-              }}
-              error={nameError}
-              helperText={nameError ? 'Name is required' : ''}
+              placeholder="+1234567890"
+              error={phoneError}
+              helperText={phoneError ? 'Please enter a valid phone number' : ''}
             />
           </FormControl>
-          
+
+          <FormControl fullWidth margin="normal">
+            <FormLabel htmlFor="birthDate">Birth Date</FormLabel>
+            <TextField
+              id="birthDate"
+              name="birthDate"
+              type="date"
+              value={birthDate}
+              onChange={(e) => setBirthDate(e.target.value)}
+              required
+              variant="outlined"
+              error={birthDateError}
+              helperText={birthDateError ? 'Please enter a valid date (YYYY-MM-DD)' : ''}
+            />
+          </FormControl>
+
           <FormControl fullWidth margin="normal">
             <FormLabel htmlFor="password">Password</FormLabel>
             <TextField
               id="password"
               name="password"
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
               variant="outlined"
               placeholder="••••••"
@@ -175,6 +181,7 @@ export default function SignUp() {
               helperText={passwordError ? 'Password must be at least 6 characters' : ''}
             />
           </FormControl>
+
           <Button type="submit" variant="contained" fullWidth>
             Sign up
           </Button>
