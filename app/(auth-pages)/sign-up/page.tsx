@@ -87,7 +87,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h4" gutterBottom>
             Sign up
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%', maxWidth: '400px' }}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%', maxWidth: '60vh' }}>
             
             <FormControl fullWidth margin="normal">
               <FormLabel htmlFor="name" sx={{ color: 'white', fontWeight: 'bold' }}>First Name</FormLabel>
