@@ -43,13 +43,7 @@ const GoogleMapComponent = () => {
     fetchCafes();
 
    
-    if (!window.google || !window.google.maps) {
-      const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`;
-      script.async = true;
-      script.onload = () => console.log("Google Maps API loaded successfully!");
-      document.head.appendChild(script);
-    }
+   
   }, []);
 
 
