@@ -1,65 +1,50 @@
-"use client";
+"use client"
 
-import { useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { useEffect, useState } from 'react';
 
-interface LatLngLiteral {
-  lat: number;
-  lng: number;
-}
-
-const center: LatLngLiteral = { lat: 58.5953, lng: 25.0136 };
-
-const MapContent = () => {
-  const map = useMap();
-  const customIcon = new L.Icon({
-    iconUrl: "/icons/marker.png",
-    iconSize: [32, 32],
-    iconAnchor: [16, 32],
-    popupAnchor: [0, -32],
-  });
-
-  useEffect(() => {
-    if (map) {
-      map.invalidateSize();
-    }
-  }, [map]);
-
-  return (
-    <>
-      <Marker position={center} icon={customIcon}>
-        <Popup>Tere tulemast Eestisse!</Popup>
-      </Marker>
-    </>
-  );
+const containerStyle = {
+  width: '100%',
+  height: '800px'
 };
 
-const Map = () => {
+const center = {
+  lat: 58.5953,  
+  lng: 25.0136
+};
+
+const GoogleMapComponent = () => {
+  const [isScriptLoaded, setIsScriptLoaded] = useState(false);
+
   useEffect(() => {
-    // Cleanup kaardi konteineri
-    return () => {
-      const mapContainer = document.querySelector(".leaflet-container");
-      if (mapContainer) {
-        (mapContainer as any)._leaflet_id = null;
-      }
-    };
+    
+    if (window.google && window.google.maps) {
+      setIsScriptLoaded(true);  
+    } else {
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY2}`;
+      script.onload = () => setIsScriptLoaded(true); 
+      document.head.appendChild(script);
+    }
   }, []);
 
+  if (!isScriptLoaded) {
+    return <div>Kaart laaditakse...</div>;
+  }
+
   return (
-    <MapContainer
+    <GoogleMap
+      mapContainerStyle={containerStyle}
       center={center}
-      zoom={7}
-      style={{ width: "100%", height: "80vh" }}
+
+      zoom={8}
+      minZoom={7}
+      style={{ width: "100%", height: "76vh", borderRadius:"25px" }}
+
     >
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-      <MapContent />
-    </MapContainer>
+      <Marker position={center} />
+    </GoogleMap>
   );
 };
 
-export default Map;
+export default GoogleMapComponent;
