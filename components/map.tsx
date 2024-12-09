@@ -38,8 +38,7 @@ const GoogleMapComponent = () => {
       center={center}
 
       zoom={8}
-      minZoom={7}
-      style={{ width: "100%", height: "76vh", borderRadius:"25px" }}
+      
 
     >
       <Marker position={center} />
