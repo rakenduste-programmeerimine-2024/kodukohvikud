@@ -61,6 +61,7 @@ const GoogleMapComponent = () => {
     setSelectedCafe(cafe); 
   };
   return (
+    <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string} libraries={['places']}>
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center}
@@ -91,6 +92,7 @@ const GoogleMapComponent = () => {
         </InfoWindow>
       )}
     </GoogleMap>
+    </LoadScript>
   );
 };
 

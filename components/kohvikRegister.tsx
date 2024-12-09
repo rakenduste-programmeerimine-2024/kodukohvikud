@@ -185,7 +185,7 @@ const KohvikRegister: React.FC = () => {
             <Autocomplete
               onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
               onPlaceChanged={handlePlaceChanged}
-              fields={['formatted_address']}
+              fields={['formatted_address','geometry']}
             >
               <TextField
                 fullWidth
