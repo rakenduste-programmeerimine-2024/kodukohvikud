@@ -12,14 +12,24 @@ import { styled } from '@mui/material/styles';
 import AppTheme from '../../../shared-theme/AppTheme';
 import ColorModeSelect from '../../../shared-theme/ColorModeSelect';
 
-
 const SignUpContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: '',
+  justifyContent: 'center',
   height: '100vh',
   padding: theme.spacing(2),
+}));
+
+const BrownBox = styled(Box)(({ theme }) => ({
+  backgroundColor: '#4C2118',
+  padding: theme.spacing(3),
+  borderRadius: theme.spacing(2),
+  width: '60%',
+  height: '86vh',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 }));
 
 export default function SignUp() {
@@ -72,57 +82,55 @@ export default function SignUp() {
 
   return (
     <AppTheme>
-      <CssBaseline enableColorScheme />
-      <ColorModeSelect sx={{ position: 'absolute', top: '10px', right: '10px' }} />
-      <SignUpContainer>
-        <Typography component="h1" variant="h4" gutterBottom>
-          Sign up
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%', maxWidth: '400px' }}>
-          
-          <FormControl fullWidth margin="normal">
-            <FormLabel htmlFor="name">First Name</FormLabel>
-            <TextField
-              id="name"
-              name="name"
-              required
-              variant="outlined"
-              placeholder="Margus"
-              error={nameError}
-              helperText={nameError ? 'Name is required' : ''}
-            />
-          </FormControl>
+      
+        <SignUpContainer>
+          <Typography component="h1" variant="h4" gutterBottom>
+            Sign up
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%', maxWidth: '60vh' }}>
+            
+            <FormControl fullWidth margin="normal">
+              <FormLabel htmlFor="name" sx={{ color: 'white', fontWeight: 'bold' }}>First Name</FormLabel>
+              <TextField
+                id="name"
+                name="name"
+                required
+                variant="outlined"
+                placeholder="Margus"
+                error={nameError}
+                helperText={nameError ? 'Name is required' : ''}
+              />
+            </FormControl>
 
-          <FormControl fullWidth margin="normal">
-            <FormLabel htmlFor="name">Last Name</FormLabel>
-            <TextField
-              id="last name"
-              name="last name"
-              required
-              variant="outlined"
-              placeholder="Murakas"
-              error={nameError}
-              helperText={nameError ? 'Name is required' : ''}
-            />
-          </FormControl>
+            <FormControl fullWidth margin="normal">
+              <FormLabel htmlFor="name" sx={{ color: 'white', fontWeight: 'bold' }}>Last Name</FormLabel>
+              <TextField
+                id="last name"
+                name="last name"
+                required
+                variant="outlined"
+                placeholder="Murakas"
+                error={nameError}
+                helperText={nameError ? 'Name is required' : ''}
+              />
+            </FormControl>
 
-          <FormControl fullWidth margin="normal">
-            <FormLabel htmlFor="email">Email</FormLabel>
-            <TextField
-              id="email"
-              name="email"
-              required
-              variant="outlined"
-              placeholder="MargusMurakas@example.com"
-              error={emailError}
-              helperText={emailError ? 'Please enter a valid email address' : ''}
-            />
-          </FormControl>
+            <FormControl fullWidth margin="normal">
+              <FormLabel htmlFor="email" sx={{ color: 'white', fontWeight: 'bold' }}>Email</FormLabel>
+              <TextField
+                id="email"
+                name="email"
+                required
+                variant="outlined"
+                placeholder="MargusMurakas@example.com"
+                error={emailError}
+                helperText={emailError ? 'Please enter a valid email address' : ''}
+              />
+            </FormControl>
 
-          
-          <FormControl fullWidth margin="normal">
-          <FormLabel htmlFor="phone">Phone</FormLabel>
-          <TextField
+            <FormControl fullWidth margin="normal">
+              <FormLabel htmlFor="phone" sx={{ color: 'white', fontWeight: 'bold' }}>Phone</FormLabel>
+              <TextField
                 id="phone"
                 name="phone"
                 required
@@ -133,53 +141,62 @@ export default function SignUp() {
                 helperText={nameError ? 'Phone number is required' : ''}
                 inputProps={{
                   pattern: '[0-9]*', 
-                  
                   inputMode: 'numeric',
                 }}
                 onInput={(e) => {
-                  
                   const input = e.target as HTMLInputElement;
-                  
                   input.value = input.value.replace(/\D/g, '');
                 }}
               />
             </FormControl>
 
+            <FormControl fullWidth margin="normal">
+              <FormLabel htmlFor="birthday" sx={{ color: 'white', fontWeight: 'bold' }}>Birthday</FormLabel>
+              <TextField
+                id="birthday"
+                name="birthday"
+                required
+                variant="outlined"
+                type="date"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                error={nameError}
+                helperText={nameError ? 'Name is required' : ''}
+              />
+            </FormControl>
 
-          <FormControl fullWidth margin="normal">
-            <FormLabel htmlFor="birthday">Birthday</FormLabel>
-            <TextField
-              id="birthday"
-              name="birthday"
-              required
-              variant="outlined"
-              type='date'
-              InputLabelProps={{
-                shrink: true, 
-              }}
-              error={nameError}
-              helperText={nameError ? 'Name is required' : ''}
-            />
-          </FormControl>
-          
-          <FormControl fullWidth margin="normal">
-            <FormLabel htmlFor="password">Password</FormLabel>
-            <TextField
-              id="password"
-              name="password"
-              type="password"
-              required
-              variant="outlined"
-              placeholder="••••••"
-              error={passwordError}
-              helperText={passwordError ? 'Password must be at least 6 characters' : ''}
-            />
-          </FormControl>
-          <Button type="submit" variant="contained" fullWidth>
-            Sign up
-          </Button>
-        </Box>
-      </SignUpContainer>
+            <FormControl fullWidth margin="normal">
+              <FormLabel htmlFor="password" sx={{ color: 'white', fontWeight: 'bold' }}>Password</FormLabel>
+              <TextField
+                id="password"
+                name="password"
+                type="password"
+                required
+                variant="outlined"
+                placeholder="••••••"
+                error={passwordError}
+                helperText={passwordError ? 'Password must be at least 6 characters' : ''}
+              />
+            </FormControl>
+            <Button
+  type="submit"
+  variant="contained"
+  fullWidth
+  sx={{
+    backgroundColor: 'white !important', 
+    color: 'white',              
+    '&:hover': {
+      backgroundColor: '#8E3B2E',
+    },
+    padding: '10px',             
+  }}
+>
+  Sign up
+</Button>
+          </Box>
+        </SignUpContainer>
+      
     </AppTheme>
   );
 }
